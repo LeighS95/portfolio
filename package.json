@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ./scripts/generateBlogStructure.cjs && astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "node ./scripts/generateBlogStructure.cjs && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
