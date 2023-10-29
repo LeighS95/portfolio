@@ -79,6 +79,7 @@ import { ViewTransitions } from 'astro:transitions';
 	body {
 		margin: 0;
 		padding: 0 64px;
+		overflow-x: hidden;
 	}
 
 	code {
@@ -164,7 +165,7 @@ import { ViewTransitions } from 'astro:transitions';
 	}
 
 	#light {
-		position: absolute;
+		position: fixed;
 		height: 100vh;
 		width: 100vh;
 		transform: translate(-50%, -50%);

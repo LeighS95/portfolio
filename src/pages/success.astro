@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<style>
+    .container {
+        display: grid;
+        place-items: center;
+        height: 80vh;
+        max-width: 1440px;
+    }
+
+    .card {
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 16px;
+        background-color: var(--surface-background);
+        pointer-events: none;
+    }
+
+    .card > h1 {
+        margin: 0;
+    }
+
+    .button {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 2px solid var(--brand-color-bg);
+        background-color: transparent;
+        transition: all 0.25s ease-in;
+    }
+
+    .button:hover {
+        box-shadow: 0 0 8px var(--brand-color-bg);
+    }
+</style>
+
+<Layout title="Contact Made">
+    <div class="container">
+        <div class="card">
+            <h1>Contact Made!</h1>
+
+            <p>
+                Thank you for contacting my. I will get back to you as soon as I can.
+            </p>
+        </div>
+
+        <a href="/" class="button">
+            Go Home
+        </a>
+    </div>
+</Layout>

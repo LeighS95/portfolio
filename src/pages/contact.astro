@@ -97,7 +97,13 @@ import Layout from "../layouts/Layout.astro";
             <p>How can I help?</p>
         </div>
 
-        <form class="form">
+        <form
+            class="form"
+            name="contact"
+            method="POST"
+            action="/success"
+            data-netlify="true"
+        >
             <div class="field-container">
                 <input
                     name="name"
