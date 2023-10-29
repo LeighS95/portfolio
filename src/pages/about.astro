@@ -1,0 +1,270 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import WorkHistoryCard from '../components/cv/WorkHistoryCard.astro';
+---
+
+<style>
+    main {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(30%, 1fr));
+        gap: 16px;
+        padding: 72px 0;
+        margin: 0 auto;
+        max-width: 1440px;
+    }
+
+    section {
+        margin: 72px 0;
+    }
+
+    .sections {
+        position: sticky;
+        top: 50%;
+        height: 25vh;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .section-label {
+        padding-left: 0;
+        color: var(--color-white-dimmed);
+        cursor: pointer;
+        transition: all 0.25s ease-in;
+    }
+
+    .section-label:hover {
+        color: var(--color-white);
+    }
+
+    .intro {}
+
+    .stats {
+        margin: 0 auto;
+        max-width: 940px;
+        display: grid;
+        gap: 16px;
+    }
+
+    .stat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat-bar {
+        height: 24px;
+        border-radius: 0 16px 16px 0;
+        background: pink;
+    }
+
+    .experience {
+        color: var(--color-white);
+        font-family: var(--secondary-text);
+    }
+
+    .cv {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .active-section {
+        color: var(--color-white);
+        padding-left: 32px;
+    }
+
+    @media (max-width: 600px) {
+        main {
+            grid-template-columns: repeat(1, 1fr);
+        }
+
+        .sections {
+            display: none;
+        }
+    }
+</style>
+
+<Layout title="About">
+    <main>
+        <div class="sections">
+            <div class="section-label">
+                About
+            </div>
+
+            <div class="section-label">
+                Skills
+            </div>
+
+            <div class="section-label">
+                Cv
+            </div>
+        </div>
+
+        <div>
+            <section id="intro" class="intro">
+                <h2>About</h2>
+                
+                <p>
+                    From startups to enterprices, both employed and as a freelancer I have built up a wealth of knowledge in UI/UX design and within programming both web and mobile applications.
+                </p>
+
+                <p>
+                    From simple websites to complex enterprise microservice there is no such thing as a one size fits all approach in tech. Thats why I take time to understand you project and the requirements.
+                </p>
+            </section>
+
+            <section id="stats" class="stats">
+                <h2 style={{ color: '#fff' }}>
+                    Skills
+                </h2>
+
+                <div>
+                    <div class="experience">
+                        UI/UX
+                    </div>
+
+                    <div class="stat">    
+                        <div class="stat-bar" style={{ width: '60%', background: 'linear-gradient(to right, rgba(194, 17, 238, 1) 0%, rgba(194, 17, 238, 0.15) 100%)' }}></div>
+            
+                        <div class="experience">
+                            3+ years
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="experience">
+                        Web Dev
+                    </div>
+
+                    <div class="stat">    
+                        <div class="stat-bar" style={{ width: '100%', background: 'linear-gradient(to right, rgba(194, 17, 238, 1) 0%, rgba(194, 17, 238, 0.15) 100%)' }}></div>
+            
+                        <div class="experience">
+                            5+ years
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="experience">
+                        Mobile Dev
+                    </div>
+
+                    <div class="stat">    
+                        <div class="stat-bar" style={{ width: '60%', background: 'linear-gradient(to right, rgba(194, 17, 238, 1) 0%, rgba(194, 17, 238, 0.15) 100%)' }}></div>
+            
+                        <div class="experience">
+                            3+ years
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="experience">
+                        Architecture
+                    </div>
+
+                    <div class="stat">
+                        <div class="stat-bar" style={{ width: '40%', background: 'linear-gradient(to right, rgba(194, 17, 238, 1) 0%, rgba(194, 17, 238, 0.15) 100%)' }}></div>
+            
+                        <div class="experience">
+                            2+ years
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cv" class="cv">
+                <h2>CV</h2>
+                
+                <h4>History</h4>
+
+                <WorkHistoryCard
+                    date="aug 2020 - present"
+                    title="Senior Software Engineer - Upland Software"
+                    content="My role as a software engineer was to architect, build, test and maintain upland applications. I utilized various modern technologies such as React, nodeJs and graphql, docker and AWS while using best practices. In this role knowledge of AWS and microservice and micro frontends was used inorder to build highly available and configurable multi-tenant SAAS applications."
+                />
+
+                <WorkHistoryCard
+                    date="jan 2020 - jul 2020"
+                    title="Freelance Designer/Developer"
+                    content="During this period I worked on various applications and websites, offering customized solutions tailored to meet the unique requirements and objectives of each client"
+                />
+
+                <WorkHistoryCard
+                    date="sept 2019 - dec 2019"
+                    title="Web Developer - Verse"
+                    content="I served as a web developer, utilizing mordern design principles and development technologies to create bespoke websites and apps."
+                />
+
+                <div style={{ marginTop: "32px" }}>
+                    <a href="/resume.pdf">
+                        View Full CV {'->'}
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sectionLabels = document.querySelectorAll('.section-label');
+
+        const options = {
+            root: document.querySelector('#scrollArea'),
+            threshold: 0.75
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+
+                if (entry.isIntersecting) {
+                    if (entry.target.className === 'intro') {
+                        sectionLabels.forEach(label => label.classList.remove('active-section'));
+                        return sectionLabels[0].classList.add('active-section');
+                    }
+                    if (entry.target.className === 'stats') {
+                        sectionLabels.forEach(label => label.classList.remove('active-section'));
+                        return sectionLabels[1].classList.add('active-section');
+                    }
+
+                    sectionLabels.forEach(label => label.classList.remove('active-section'));
+                    return sectionLabels[2].classList.add('active-section');
+
+                }
+            })
+        }, options);
+
+        const sections = document.querySelectorAll('section');
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        const labels = document.querySelectorAll('.section-label');
+
+        labels.forEach((label, i) => {
+            let id: string;
+
+            switch (i) {
+                case 1:
+                    id = 'stats';
+                    break;
+                case 2:
+                    id = 'cv';
+                    break;
+                default:
+                    id = 'intro';
+            }
+
+            label.addEventListener('click', () => {
+                if (id === 'intro') return window.scrollTo(0, 0);
+                document.getElementById(id)?.scrollIntoView();
+            });
+        })
+    });
+</script>

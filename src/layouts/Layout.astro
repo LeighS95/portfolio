@@ -1,0 +1,206 @@
+---
+interface Props {
+	title: string;
+}
+
+const { pathname } = Astro.url;
+
+const { title } = Astro.props;
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Roboto+Mono:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+		<!-- <ViewTransitions /> -->
+	</head>
+	<body>
+		{pathname !== '/' && (
+			<div class="floating-nav">
+				<a class="nav-link" href="/">
+					Home
+				</a>
+
+				<a class="nav-link" href="/about">
+					About
+				</a>
+
+				<a class="nav-link" href="/blog">
+					Blog
+				</a>
+
+				<a class="nav-link" href="/contact">
+					Contact
+				</a>
+			</div>
+		)}
+
+		<slot />
+
+		<div id="light"></div>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--color-white: rgba(255, 255, 255, 1);
+		--color-white-dimmed: rgba(255, 255, 255, 0.5);
+		--color-dark: #010101;
+		--surface-dark: #1d1d1d;
+		--surface-background: rgba(29, 29, 29, 0.4);
+
+		--brand-color: #C211EE;
+		--brand-color-bg: rgba(194, 17, 238, 0.4);
+
+		--primary-text: 'Roboto Mono', monospace;
+		--secondary-text: 'Cutive Mono', monospace;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		background: var(--color-dark);
+		background-size: 224px;
+	}
+
+	body {
+		margin: 0;
+		padding: 0 64px;
+	}
+
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	a {
+		color: var(--color-white);
+		font-family: var(--primary-text);
+	}
+
+	a {
+		color: var(--color-white-dimmed);
+		text-decoration: none;
+	}
+
+	@media (max-width: 600px) {
+		body {
+			padding: 0 32px;
+		}
+	}
+	
+	.floating-nav {
+		margin: 0 auto;
+		position: fixed;
+		top: 16px;
+		left: 0;
+		right: 0;
+		display: flex;
+		border-radius: 8px;
+		/* gap: 8px; */
+		justify-self: center;
+		width: max-content;
+		font-size: 12px;
+		color: var(--color-white-dimmed);
+		background: var(--surface-background);
+		z-index: 9999;
+		transition: all 0.25s ease-in;
+	}
+
+	.floating-nav:hover {
+		background: var(--surface-dark);
+	}
+
+	.nav-link {
+		padding: 4px 8px;
+		color: var(--brand-color-bg);
+		transition: all 0.25s ease-in;
+	}
+
+	.nav-link:hover {
+		color: var(--brand-color);
+		background-color: var(--brand-color-bg);
+	}
+
+	.nav-link:first-child {
+		border-radius: 8px 0 0 8px;
+	}
+
+	.nav-link:last-child {
+		border-radius: 0px 8px 8px 0;
+	}
+
+	.active {
+		color: var(--color-white);
+		background-color: var(--brand-color);
+		transition: all 0.25s ease-in;
+	}
+
+	#light {
+		position: absolute;
+		height: 100vh;
+		width: 100vh;
+		transform: translate(-50%, -50%);
+		background: radial-gradient(circle at center, rgba(194, 17, 238, 0.15) 1%, rgba(0, 0, 0, 0) 40%);
+		pointer-events: none;
+	}
+</style>
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const light = document.getElementById('light');
+		const links = document.querySelectorAll('.nav-link');
+
+		links.forEach(link => {
+			const href = link.getAttribute('href');
+
+			if (!href || href === '/') {
+				return;
+			}
+
+			if (window.location.href.includes(link.getAttribute('href') ?? '')) {
+				link.classList.add('active');
+			} else {
+				link.classList.remove('active');
+			}
+		});
+
+		if (light) {
+			document.addEventListener('mousemove', (e) => {
+				console.log(e.pageX)
+				const { pageX, pageY } = e;
+
+				light.style.top = `${pageY}px`;
+				light.style.left = `${pageX}px`;
+			});
+		}
+	});
+</script>

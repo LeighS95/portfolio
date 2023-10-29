@@ -1,0 +1,74 @@
+[
+  {
+    "name": "design",
+    "subCategories": [
+      {
+        "name": "branding",
+        "articles": [
+          "twitter-to-x",
+          "what-is-branding"
+        ]
+      },
+      {
+        "name": "colors",
+        "articles": [
+          "choosing-brand-colors",
+          "color-theory"
+        ]
+      },
+      {
+        "name": "design-systems",
+        "articles": [
+          "design-systems-across-devices",
+          "what-is-a-design-system"
+        ]
+      },
+      {
+        "name": "other",
+        "articles": [
+          "responsive-design",
+          "user-centric-design",
+          "user-interface"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "programming",
+    "subCategories": [
+      {
+        "name": "apis",
+        "articles": [
+          "nodejs-apis"
+        ]
+      },
+      {
+        "name": "flutter",
+        "articles": [
+          "flutter"
+        ]
+      },
+      {
+        "name": "js-ts",
+        "articles": [
+          "embracing-typescript",
+          "typescript-basics"
+        ]
+      },
+      {
+        "name": "other",
+        "articles": [
+          "custom-solutions",
+          "performance",
+          "writing-maintainable-code"
+        ]
+      },
+      {
+        "name": "python",
+        "articles": [
+          "harnessing-python"
+        ]
+      }
+    ]
+  }
+]

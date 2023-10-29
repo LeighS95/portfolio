@@ -1,0 +1,55 @@
+---
+const { date, title, content } = Astro.props;
+---
+
+<style>
+    .card {
+        display: flex;
+        padding: 16px;
+        gap: 32px;
+        border: 1px solid transparent;
+        border-radius: 16px;
+        color: var(--color-white);
+        cursor: pointer;
+        transition: all 0.25s ease-in;
+    }
+
+    .card:hover {
+        border: 1px solid var(--brand-color-bg);
+        background: var(--surface-background);
+    }
+
+    .card > h6 {
+        white-space: nowrap;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .card-text {}
+</style>
+
+<div class="card">
+    <h6>
+        { date }
+    </h6>
+
+    <div class="card-content">
+        <div class="card-title">
+            { title }
+        </div>
+        
+        <div class="card-text">
+            { content }
+        </div>
+    </div>
+</div>

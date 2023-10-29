@@ -1,0 +1,148 @@
+---
+import Icon from "astro-icon";
+import Layout from "./Layout.astro";
+import Accordion from "../components/accordion/accordion.astro";
+
+import { getBlogPath } from '../utils/blogUtils';
+import blogStructure from '../blogStructure.json';
+
+const { title } = Astro.props;
+---
+
+<style is:global>
+    main {
+        position: relative;
+        margin: 0 auto;
+        padding-top: 32px;
+        max-width: 1400px;
+        color: var(--color-white);
+    }
+
+    article {
+        margin: 0 auto;
+        padding: 32px 0;
+        max-width: 640px;
+    }
+
+    article > p > img {
+        height: auto;
+        width: 100%;
+        max-width: 640px;
+        object-position: center;
+    }
+
+    article > h2 {
+        margin-top: 64px;
+    }
+
+    article > ul {
+        font-family: var(--secondary-text);
+    }
+
+    .drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0px;
+        height: 100vh;
+        color: var(--color-white);
+        background: var(--surface-dark);
+        transition: width 0.25s ease-in 0.25s;
+        z-index: 999;
+        overflow: hidden;
+    }
+
+    .drawer-close {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 16px;
+        color: var(--color-white);
+        cursor: pointer;
+    }
+
+    .drawer-open {
+        position: fixed;
+        cursor: pointer;
+        transition: transform 0.25s ease-in;
+    }
+
+    .drawer-open:hover {
+        transform: skew(-30deg);
+    }
+
+    .drawer-menu {
+        padding: 0 16px;
+    }
+
+    .open {
+        width: 240px;
+    }
+</style>
+
+<Layout title={title}>
+    <div class="drawer">
+        <div class="drawer-close">
+            Close <Icon name="mdi:close" size="24" />
+        </div>
+
+        <div class="drawer-menu">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h4>Design Articles</h4>
+
+                {blogStructure[0].subCategories.map(sub => (
+                    <Accordion
+                        title={sub.name.replace('-', ' ')}
+                        options={sub.articles.map(article => ({
+                            name: article.replace(/-/g, ' '),
+                            link: getBlogPath(blogStructure[0].name, sub.name, article),
+                        }))}
+                    />
+                ))}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h4>Programming</h4>
+
+                {blogStructure[1].subCategories.map(sub => (
+                    <Accordion
+                        title={sub.name.replace('-', ' / ')}
+                        options={sub.articles.map(article => ({
+                            name: article.replace(/-/g, ' '),
+                            link: getBlogPath(blogStructure[1].name, sub.name, article),
+                        }))}
+                    />
+                ))}
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="drawer-open">
+            <Icon name="mdi:menu" size="24" color="#fff" />
+        </div>
+
+        <article>
+            <slot />
+        </article>
+    </main>
+</Layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const drawer = document.querySelector('.drawer');
+        const drawerOpen = document.querySelector('.drawer-open');
+        const drawerClose = document.querySelector('.drawer-close');
+
+        if (!drawerOpen || !drawer) return;
+
+        drawerOpen.addEventListener('click', () => {
+            drawer.classList.add('open');
+        });
+
+        drawerClose?.addEventListener('click', () => {
+            drawer.classList.remove('open');
+        });
+    })
+</script>

@@ -1,0 +1,84 @@
+---
+import BlogLayout from "../layouts/BlogLayout.astro";
+
+import { getBlogPath, getBlogThumbnail } from "../utils/blogUtils";
+import blogStructure from '../blogStructure.json';
+---
+
+<style>
+    main {
+        padding: 72px 0;
+    }
+
+    .blog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        justify-content: center;
+        gap: 16px;
+        padding-bottom: 32px;
+    }
+
+    .blog-card {
+        display: flex;
+        border-radius: 8px;
+        border: 1px solid var(--color-white-dimmed);
+        background: var(--surface-background);
+        cursor: pointer;
+        overflow: hidden;
+        max-height: 72px;
+        transition: all 0.25s ease-in;
+    }
+
+    .blog-card:hover {
+        border: 1px solid var(--brand-color-bg);
+        box-shadow: 0 0 8px var(--brand-color-bg);
+    }
+
+    .blog-card > p {
+        padding: 8px;
+    }
+
+    .thumbnail {
+        height: auto;
+        width: 20%;
+        object-fit: contain;
+    }
+</style>
+
+<BlogLayout title="Blogs">
+    <main>
+        <h1 style={{ marginBottom: '64px' }}>
+            Blogs
+        </h1>
+
+        <div class="blog-grid">
+            {blogStructure[0].subCategories.map(sub => {
+                return sub.articles.map(article => (
+                    <a href={getBlogPath(blogStructure[0].name, sub.name, article)}>
+                        <div class="blog-card">
+                            <img class="thumbnail" src={getBlogThumbnail(article)} />
+
+                            <p>
+                                {article.replace(/-/g, ' ')}
+                            </p>
+                        </div>
+                    </a>
+                ))
+            })}
+
+            {blogStructure[1].subCategories.map(sub => {
+                return sub.articles.map(article => (
+                    <a href={getBlogPath(blogStructure[1].name, sub.name, article)}>
+                        <div class="blog-card">
+                            <img class="thumbnail" src={getBlogThumbnail(article)} />
+
+                            <p>
+                                {article.replace(/-/g, ' ')}
+                            </p>
+                        </div>
+                    </a>
+                ));
+            })}
+        </div>
+    </main>
+</BlogLayout>

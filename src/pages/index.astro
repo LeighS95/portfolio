@@ -1,0 +1,227 @@
+---
+import { Image } from 'astro:assets';
+import Icon from 'astro-icon';
+import Layout from '../layouts/Layout.astro';
+import { Terminal } from '../components/terminal';
+
+import HeroImage from '../../public/hero_image.png';
+---
+
+<style>
+	body {
+		overflow: hidden;
+	}
+
+	main {
+		position: relative;
+		height: 100vh;
+	}
+
+	.mode-toggle {
+		position: absolute;
+		top: 16px;
+		right: 0;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.toggle-button {
+		display: none;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+	}
+
+	.hero-image {
+		position: absolute;
+		top: 0;
+		right: 0;
+		display: grid;
+		min-width: 310px;
+		z-index: -1;
+	}
+
+	.intro {
+		position: absolute;
+		top: 10%;
+		width: 100%;
+		min-width: 220px;
+		max-width: 390px;
+		color: var(--color-white);
+		pointer-events: none;
+	}
+
+	.intro > h1 {
+		margin: 0;
+		font-weight: 400;
+		font-size: 64px;
+	}
+
+	.intro > p {
+		margin: 0;
+		font-weight: 300;
+		font-size: 16px;
+		color: var(--color-white-dimmed);
+	}
+
+	#mouse-view,
+	#cli-view {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 5%;
+		opacity: 0;
+		transition: opacity 0.25s ease-in;
+	}
+
+	.card-link {
+		padding: 16px 32px;
+		border-radius: 8px;
+		border: 1px solid var(--color-white-dimmed);
+		text-decoration: none;
+		color: var(--color-white-dimmed);
+		cursor: pointer;
+		transition: all 0.25s ease-in;
+	}
+
+	.card-link:hover {
+		border: 1px solid var(--brand-color-bg);
+		box-shadow: 0px 0px 8px var(--brand-color-bg);
+		color: var(--color-white);
+	}
+
+	@media (max-width: 600px) {
+		#mouse-view > div {
+			flex-direction: column;
+			gap: 8px;
+		}
+
+		.intro > h1 {
+			margin: 0;
+			font-weight: 400;
+			font-size: 48px;
+		}
+
+		.intro > p {
+			margin: 0;
+			font-weight: 300;
+			font-size: 16px;
+			color: var(--color-white-dimmed);
+		}
+	}
+
+	@media (min-width: 999px) {
+		.hero-image {
+			top: 0;
+			right: 0;
+			width: 70%;
+			height: 100vh;
+		}
+	}
+</style>
+
+<Layout title="Welcome">
+	<main>
+		<div class="mode-toggle">
+			<div id="mouse-button" class="toggle-button">
+				Use mouse
+				<Icon name="mdi:mouse" size="20" />
+			</div>
+
+			<div id="cli-button" class="toggle-button">
+				Use cli
+				<Icon name="mdi:application-brackets" size="20" />
+			</div>
+		</div>
+
+		<div class="intro">
+			<h1>
+				<strong>Hi!</strong>
+				<br />
+				I am Steve
+			</h1>
+
+			<p>
+				a senior software engineer with skills in UI/UX and business consultancy. Enjoying bringing new things to life.
+			</p>
+		</div>
+
+		<div class="hero-image">
+			<Image
+				src={HeroImage}
+				alt="Hero Image"
+				style={{
+					height: 'auto',
+					width: '100%',
+				}}
+			/>
+		</div>
+
+		<div id="mouse-view">
+			<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+				<a class="card-link" href="/about">
+					About
+				</a>
+
+				<a class="card-link" href="/blog">
+					Blog
+				</a>
+
+				<a class="card-link" href="contact">
+					Contact
+				</a>
+			</div>
+		</div>
+
+		<div id="cli-view">
+			<Terminal client:only />
+		</div>
+	</main>
+</Layout>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const mode = localStorage.getItem('mode');
+
+		if (!mode) localStorage.setItem('mode', 'mouse');
+
+		const modeToggle = document.querySelectorAll('.toggle-button');
+		const mouseButton = document.getElementById('mouse-button');
+		const cliButton = document.getElementById('cli-button');
+		const mouseView = document.getElementById('mouse-view');
+		const cliView = document.getElementById('cli-view');
+
+		
+
+		function toggleView(mode: string) {
+			if (
+				!modeToggle ||
+				!mouseButton ||
+				!cliButton ||
+				!mouseView ||
+				!cliView
+			) return;
+
+			cliButton.style.display = mode === 'mouse' ? 'flex' : 'none';
+			mouseButton.style.display = mode === 'mouse' ? 'none' : 'flex';
+			mouseView.style.opacity = mode === 'mouse' ? '1' : '0';
+			cliView.style.opacity = mode === 'mouse' ? '0' : '1';
+			cliView.style.zIndex = mode === 'mouse' ? '-1' : '1';
+		}
+
+		toggleView(mode ?? 'mouse');
+
+		modeToggle.forEach(button => {
+			button.addEventListener('click', () => {
+				const currentMode = localStorage.getItem('mode');
+
+				currentMode === 'mouse'
+					? localStorage.setItem('mode', 'cli')
+					: localStorage.setItem('mode', 'mouse');
+
+				toggleView(currentMode ?? 'mouse');
+				window.location.reload();
+			});
+		});
+	});
+</script>

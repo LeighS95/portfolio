@@ -1,0 +1,46 @@
+---
+const { title, options } = Astro.props;
+---
+
+<style>
+    .accordion {}
+
+    .accordion-title {
+        color: var(--color-white);
+        cursor: pointer;
+        text-transform: capitalize;
+    }
+
+    .accordion-options {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-left: 16px;
+    }
+
+    .accordion-options > a {
+        font-size: 14px;
+        text-decoration: none;
+        color: var(--color-white-dimmed);
+        transition: color 0.25s ease-in;
+        cursor: pointer;
+    }
+
+    .accordion-options > a:hover {
+        text-decoration: none;
+        color: var(--color-white);
+    }
+</style>
+
+<details class="accordion">
+    <summary class="accordion-title">
+        { title }
+    </summary>
+
+    <div class="accordion-options">
+        {options.map(({ name, link }: any) => (
+            <a href={link}>{name}</a>
+        ))}
+    </div>
+</details>
